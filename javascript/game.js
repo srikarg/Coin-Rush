@@ -8,6 +8,7 @@ $(function () {
     var canvasBackground = "#222";
     var wallColor = "#ccc";
     var audioOn = true;
+    var interval;
 
     Crafty.init(width, height);
     Crafty.canvas.init();
@@ -31,6 +32,19 @@ $(function () {
         }).text("Loading...").css("text-align", "center");
     });
 
+    Crafty.scene("instructions", function () {
+        Crafty.e("2D, HTML").attr({
+            x: 0,
+            y: 0,
+            w: width,
+            h: height
+        }).replace("<style>li {padding: 5px;} li img {width: 16px;} .close{display: block; margin: 0 auto;}</style><h3>Instructions</h3><ol><li>Move up: Up arrow key or W.</li><li>Move right: Right arrow key or D.</li><li>Move left: Left arrow key or A.</li><li>Collect the coins to gain points! <img src=\"images\/coin.png\" /></li><li>Let the coins fall to lose points!</li><li>Hit bombs and lose a life! <img src=\"images/bomb.png\" /></li><li>Collect the heart icon to gain one life! <img src=\"images/heart.png\" /></li><li>The time left is shown above along with your coin score and lives.</ol><button class=\"close\">Play!</button>");
+
+        $(".close").on("click", function () {
+            Crafty.scene("game");
+        });
+    });
+
     $('.stop').on('click', function () {
         if (audioOn) {
             Crafty.audio.stop();
@@ -48,19 +62,6 @@ $(function () {
         Crafty.scene("instructions");
     });
 
-    Crafty.scene("instructions", function () {
-        Crafty.e("2D, HTML").attr({
-            x: 0,
-            y: 0,
-            w: width,
-            h: height
-        }).replace("<style>li {padding: 5px;} li img {width: 16px;} .close{display: block; margin: 0 auto;}</style><h3>Instructions</h3><ol><li>Move up: Up arrow key or W.</li><li>Move right: Right arrow key or D.</li><li>Move left: Left arrow key or A.</li><li>Collect the coins to gain points! <img src=\"images\/coin.png\" /></li><li>Let the coins fall to lose points!</li><li>Hit bombs and lose a life! <img src=\"images/bomb.png\" /></li><li>Collect the heart icon to gain one life! <img src=\"images/heart.png\" /></li><li>The time left is shown above along with your coin score and lives.</ol><button class=\"close\">Play!</button>");
-
-        $(".close").on("click", function () {
-            Crafty.scene("game");
-        });
-    });
-
     Crafty.scene("game", function () {
         var canvas = $('canvas'); // For referencing the canvas element easily.
         var counter = 0; // For the number of coins the player collected.
@@ -75,7 +76,7 @@ $(function () {
         if (audioOn) $('.stop').text("Turn Off Music.");
         else $('.stop').text("Turn On Music.");
 
-        var interval = setInterval(function () {
+        interval = setInterval(function () {
             timer--;
             $(".timer").text("Timer: " + timer);
             if (timer === 0) endGame();
