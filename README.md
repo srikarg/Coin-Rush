@@ -20,6 +20,8 @@ Let the coins fall to lose points!
 
 Hit bombs and lose a life!
 
+Press P to pause!
+
 License
 =======
 
