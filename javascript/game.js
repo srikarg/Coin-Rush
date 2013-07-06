@@ -38,7 +38,7 @@ $(function () {
             y: 0,
             w: width,
             h: height
-        }).replace("<style>li {padding: 5px;} li img {width: 16px;} .close{display: block; margin: 0 auto;}</style><h3>Instructions</h3><ol><li>Move up: Up arrow key or W.</li><li>Move right: Right arrow key or D.</li><li>Move left: Left arrow key or A.</li><li>Collect the coins to gain points! <img src=\"images\/coin.png\" /></li><li>Let the coins fall to lose points!</li><li>Hit bombs and lose a life! <img src=\"images/bomb.png\" /></li><li>Collect the heart icon to gain one life! <img src=\"images/heart.png\" /></li><li>The time left is shown above along with your coin score and lives.</ol><button class=\"close\">Play!</button>");
+        }).replace("<style>li {padding: 5px;} li img {width: 16px;} .close{display: block; margin: 0 auto;}</style><h3>Instructions</h3><ol><li>Move up: <kbd>&uarr;</kbd> or <kbd>W</kbd>.</li><li>Move right: <kbd>&rarr;</kbd> or <kbd>D</kbd>.</li><li>Move left: <kbd>&larr;</kbd> or <kbd>A</kbd>.</li><li>Collect the coins to gain points! <img src=\"images\/coin.png\" /></li><li>Let the coins fall to lose points!</li><li>Hit bombs and lose a life! <img src=\"images/bomb.png\" /></li><li>Collect the heart icon to gain one life! <img src=\"images/heart.png\" /></li><li>The time left is shown above along with your coin score and lives.</li><li>Press <kbd>P</kbd> to pause!</li></ol><button class=\"close\">Play!</button>");
 
         $(".close").on("click", function () {
             Crafty.scene("game");
@@ -81,6 +81,14 @@ $(function () {
             $(".timer").text("Timer: " + timer);
             if (timer === 0) endGame();
         }, 1000);
+
+        Crafty.bind('KeyDown', function(e) {
+            if (e.key == Crafty.keys['P']) {
+                if (interval)
+                    clearInterval(interval);
+                Crafty.pause();
+            }
+        });
 
         function endGame() {
             clearInterval(interval);
